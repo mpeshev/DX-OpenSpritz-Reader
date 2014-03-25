@@ -39,38 +39,21 @@ class DX_OpenSpritz_Widget extends WP_Widget {
 				echo $before_title . $title . $after_title;
 			}
 			?>
+        		<div><?php echo $out; ?></div>
         		<div id="spritz_container">
 	        		<div id="spritz_result">
 		            </div>
 		            
-        			<?php echo $out; ?>
         			
         			<button type="button" id="spritz_toggle">Play</button>
         		</div>
         	<?php
         		echo $after_widget;
         		
-        	$prespritz_text = str_replace("\n", '', $instance['speedy_text'] );
-        	$prespritz_text = str_replace("\r", '', $prespritz_text );
-        	$prespritz_text = esc_html( $prespritz_text );
-        	$prespritz_text = esc_attr( $prespritz_text );
+        	$prespritz_text = DX_OpenSpritz_Core::escape_text_contents( $instance['speedy_text'] );
         }
         
-        ?>
-        <script type="text/javascript">
-			jQuery(document).ready(function( $ ) {
-				var data = "<?php echo $prespritz_text; ?>";
-				var speed = "<?php echo $instance['spritz_wpm']; ?>";
-				var spritzContainer = document.getElementById("spritz_container");
-
-	            $('#spritz_toggle').one( 'click', function() {
-	            	spritz( speed, data );
-		        });
-	            
-			});
-
-        </script>
-        <?php 
+        DX_OpenSpritz_Core::generate_spritz_js( $prespritz_text, $instance['spritz_wpm'] );
     }
 
     /**
